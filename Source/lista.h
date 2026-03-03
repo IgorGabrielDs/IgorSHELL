@@ -7,4 +7,6 @@ typedef struct node
     struct node *proximo;
 }Node;
 
+void inserir_lista(Node **head, char *texto);
+
 #endif

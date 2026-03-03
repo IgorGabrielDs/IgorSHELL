@@ -6,8 +6,7 @@
 int main(int argc, char *argv[]){
     while(1){
         if(argc > 1){
-            Node *head = NULL;
-            ler_arquivo(argc, argv, &head);
+            ler_arquivo(argc, argv);
         }
         //digitar texto
         //funçao input

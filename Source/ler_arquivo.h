@@ -3,8 +3,7 @@
 
 #include <stdio.h>
 #include "lista.h"
-#include "inserir_lista.h"
 
-void ler_arquivo(int argc, char *argv[], Node **head);
+void ler_arquivo(int argc, char *argv[]);
 
 #endif
