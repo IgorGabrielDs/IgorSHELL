@@ -4,12 +4,7 @@
 #include "input.h"
 #include <string.h>
 
-void printar(Node *head){
-    while (head != NULL){
-        printf("%s", head->texto);
-        head = head->proximo;
-    }
-}
+
 void ler_arquivo(int argc, char *argv[]){
     for(int i=1;i<argc;i++){
         Node *frases = NULL;
