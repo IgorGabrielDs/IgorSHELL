@@ -4,6 +4,7 @@
 #include "arquivo.h"
 #include "input.h"
 #include "main.h"
+#include "executar_comandos.h"
 
 char style[4] = "seq";
 
@@ -15,7 +16,7 @@ int main(int argc, char *argv[]) {
 "░▒▓█▓▒░▒▓█▓▒▒▓███▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░ ░▒▓██████▓▒░░▒▓████████▓▒░▒▓██████▓▒░ ░▒▓█▓▒░      ░▒▓█▓▒░        \n"
 "░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░        \n"
 "░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░        \n"
-"░▒▓█▓▒░░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓████████▓▒░▒▓████████▓▒░\n\n\n\n" );
+"░▒▓█▓▒░░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓████████▓▒░▒▓████████▓▒░\n\n\n\n");
 
     if (argc > 2) {
         printf("\x1b[1mIgds \x1b[32m%s\x1b[0m> Erro ao tentar abrir diversos arquivos\x1b[0m\n", style);
@@ -24,16 +25,14 @@ int main(int argc, char *argv[]) {
 
     if (argc == 2) {
         ler_arquivo(argc, argv);
+        return 0;
     }
 
     while (1) {
-        Node *palavras = NULL;
-
         printf("\x1b[1mIgds \x1b[32m%s\x1b[0m>\x1b[0m ", style);
         fflush(stdout);
 
-        char aux[100];
-
+        char aux[200];
 
         if (fgets(aux, sizeof(aux), stdin) == NULL) {
             printf("\n");
@@ -43,19 +42,10 @@ int main(int argc, char *argv[]) {
         if (strcmp(aux, "\n") == 0) {
             continue;
         }
+
         aux[strcspn(aux, "\n")] = '\0';
 
-        char copia[100];
-
-        strcpy(copia, aux);
-
-        char *modificado = strtok(copia, " \n");
-        while (modificado != NULL) {
-            inserir_lista(&palavras, modificado);
-            modificado = strtok(NULL, " \n");
-        }
-        input(palavras);
-        free_arquivo(&palavras);
+        input_linha(aux);
     }
 
     return 0;

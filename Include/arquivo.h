@@ -5,5 +5,5 @@
 #include "lista.h"
 
 void ler_arquivo(int argc, char *argv[]);
-void free_arquivo(Node **head);
+void free_lista(char **lista);
 #endif

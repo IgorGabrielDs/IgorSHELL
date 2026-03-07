@@ -1,65 +1,52 @@
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "lista.h"
 #include "main.h"
+#include "executar_comandos.h"
 
-void tratar_style(Node *palavras){
-
-    if (palavras->proximo == NULL){
-        printf("\x1b[1mCodigo incompleto, coloque sequential ou parallel\x1b[0m\n");
-        return;
-    }
-
-    if (strcmp(palavras->proximo->texto, "parallel") == 0){
-        strcpy(style, "par");
-    }
-    else if (strcmp(palavras->proximo->texto, "sequential") == 0){
-        strcpy(style, "seq");
-    }
-    else{
-        printf("\x1b[1mCodigo incorreto, coloque sequential ou parallel\x1b[0m\n");
-    }
-}
-
-
-void executar_comandos(Node *palavras){
-    char *argv[100];
-    int i = 0;
-    Node *atual = palavras;
-    while (atual != NULL && i < 99){
-        argv[i] = atual->texto;
-        i++;
-        atual = atual->proximo;
-    }
-    argv[i] = NULL;
-    if (argv[0] == NULL){
-        return;
-    }
+pid_t executar_comandos(char **palavras){
     pid_t pid = fork();
+
     if (pid < 0){
         perror("fork");
-        return;
+        return -1;
     }
+
     if (pid == 0){
-        execvp(argv[0], argv);
+        execvp(palavras[0], palavras);
         perror("execvp");
         exit(1);
-    }else{
-        waitpid(pid, NULL, 0);
+    }
+
+    return pid;
+}
+
+void tratar_style(char **palavras){
+    if (palavras[1] == NULL){
+        printf("style: argumento faltando\n");
+        return;
+    }
+
+    if (strcmp(palavras[1], "sequential") == 0){
+        strcpy(style, "seq");
+    }
+    else if (strcmp(palavras[1], "parallel") == 0){
+        strcpy(style, "par");
+    }
+    else{
+        printf("style: modo invalido\n");
     }
 }
 
-void executar_cd(Node *palavras){
-    if (palavras->proximo == NULL){
-            printf("\x1b[1mcd: caminho nao informado\x1b[0m\n");
-            return;
-        }
-
-        if (chdir(palavras->proximo->texto) != 0){
-            perror("cd");
-        }
+void executar_cd(char **palavras){
+    if (palavras[1] == NULL){
+        printf("cd: argumento faltando\n");
         return;
+    }
+
+    if (chdir(palavras[1]) != 0){
+        perror("cd");
+    }
 }

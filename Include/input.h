@@ -1,9 +1,10 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "lista.h"
+#include <sys/types.h>
 
-void input(Node *palavras);
-void executar_comando(Node *palavras);
+void input_linha(char *linha);
+char **input_palavra(char *comando);
+pid_t input_codigo(char **palavras);
 
 #endif
