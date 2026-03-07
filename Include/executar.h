@@ -1,5 +1,5 @@
-#ifndef EXECUTAR_COMANDOS_H
-#define EXECUTAR_COMANDOS_H
+#ifndef EXECUTAR_H
+#define EXECUTAR_H
 
 #include <sys/types.h>
 

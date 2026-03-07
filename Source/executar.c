@@ -4,7 +4,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include "main.h"
-#include "executar_comandos.h"
+#include "executar.h"
 
 pid_t executar_comandos(char **palavras){
     pid_t pid = fork();

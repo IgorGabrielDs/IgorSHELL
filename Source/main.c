@@ -4,7 +4,7 @@
 #include "arquivo.h"
 #include "input.h"
 #include "main.h"
-#include "executar_comandos.h"
+#include "executar.h"
 
 char style[4] = "seq";
 

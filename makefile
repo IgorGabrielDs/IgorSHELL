@@ -1,24 +1,20 @@
-CC = gcc
-CFLAGS = -IInclude
-OBJ = Objects/main.o Objects/arquivo.o Objects/inserir_lista.o Objects/input.o Objects/executar_comandos.o
+all = Objects/main.o Objects/arquivo.o Objects/inserir_lista.o Objects/input.o Objects/executar.o
 
-igds: $(OBJ)
-	$(CC) $(OBJ) -o igds
+igds: $(all)
+	gcc -IInclude $(all) -o igds
 
 Objects/main.o: Source/main.c
-	$(CC) $(CFLAGS) -c Source/main.c -o Objects/main.o
+	gcc -IInclude -c Source/main.c -o Objects/main.o
 
 Objects/inserir_lista.o: Source/inserir_lista.c
-	$(CC) $(CFLAGS) -c Source/inserir_lista.c -o Objects/inserir_lista.o
+	gcc -IInclude -c Source/inserir_lista.c -o Objects/inserir_lista.o
 
 Objects/arquivo.o: Source/arquivo.c
-	$(CC) $(CFLAGS) -c Source/arquivo.c -o Objects/arquivo.o
+	gcc -IInclude -c Source/arquivo.c -o Objects/arquivo.o
 
 Objects/input.o: Source/input.c
-	$(CC) $(CFLAGS) -c Source/input.c -o Objects/input.o
+	gcc -IInclude -c Source/input.c -o Objects/input.o
 
-Objects/executar_comandos.o: Source/executar_comandos.c
-	$(CC) $(CFLAGS) -c Source/executar_comandos.c -o Objects/executar_comandos.o
+Objects/executar.o: Source/executar.c
+	gcc -IInclude -c Source/executar.c -o Objects/executar.o
 
-clean:
-	rm -f Objects/*.o igds

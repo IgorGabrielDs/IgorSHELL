@@ -5,67 +5,29 @@
 #include <unistd.h>
 #include "lista.h"
 #include "main.h"
-#include "executar_comandos.h"
+#include "executar.h"
 #include "input.h"
 #include "arquivo.h"
 
-void input_linha(char *linha){
-    char copia[200];
-    strcpy(copia, linha);
-
-    pid_t processos[100];
-    int qtd_processos = 0;
-
-    char *comando = strtok(copia, ";");
-
-    while (comando != NULL){
-        char **palavras = input_palavra(comando);
-
-        if (palavras != NULL){
-            pid_t pid = input_codigo(palavras);
-
-            if (pid > 0){
-                if (strcmp(style, "seq") == 0){
-                    waitpid(pid, NULL, 0);
-                }
-                else if (strcmp(style, "par") == 0){
-                    processos[qtd_processos] = pid;
-                    qtd_processos++;
-                }
-            }
-
-            free_lista(palavras);
-        }
-
-        comando = strtok(NULL, ";");
-    }
-
-    if (strcmp(style, "par") == 0){
-        for (int i = 0; i < qtd_processos; i++){
-            waitpid(processos[i], NULL, 0);
-        }
-    }
-}
-
 char **input_palavra(char *comando){
     char **palavras = NULL;
-    int qtd = 0;
+    int qtd_palavras = 0;   
 
     char copia[200];
     strcpy(copia, comando);
 
-    char *token = strtok(copia, " \t\n");
+    char *contexto_palavra;
+    char *palavra_atual = strtok_r(copia, " \t\n", &contexto_palavra);
 
-    while (token != NULL){
-        inserir_lista(&palavras, &qtd, token);
-        token = strtok(NULL, " \t\n");
+    while (palavra_atual != NULL){
+        inserir_lista(&palavras, &qtd_palavras, palavra_atual);
+        palavra_atual = strtok_r(NULL, " \t\n", &contexto_palavra);
     }
 
     return palavras;
 }
 
 pid_t input_codigo(char **palavras){
-    
     if (palavras == NULL || palavras[0] == NULL){
         return -1;
     }
@@ -85,4 +47,44 @@ pid_t input_codigo(char **palavras){
     }
 
     return executar_comandos(palavras);
+}
+
+
+
+void input_linha(char *linha){
+    char copia_linha[200];
+    strcpy(copia_linha, linha);
+
+    pid_t pids[100];
+    int qtd_pids = 0;
+
+    char *contexto_comando;
+    char *comando_atual = strtok_r(copia_linha, ";", &contexto_comando);
+
+    while (comando_atual != NULL){
+        char **palavras = input_palavra(comando_atual);
+
+        if (palavras != NULL && palavras[0] != NULL){
+            pid_t pid = input_codigo(palavras);
+
+            if (pid > 0){
+                if (strcmp(style, "seq") == 0){
+                    waitpid(pid, NULL, 0);
+                }
+                else if (strcmp(style, "par") == 0){
+                    pids[qtd_pids] = pid;
+                    qtd_pids++;
+                }
+            }
+        }
+
+        free_lista(palavras);
+        comando_atual = strtok_r(NULL, ";", &contexto_comando);
+    }
+
+    if (strcmp(style, "par") == 0){
+        for (int i = 0; i < qtd_pids; i++){
+            waitpid(pids[i], NULL, 0);
+        }
+    }
 }

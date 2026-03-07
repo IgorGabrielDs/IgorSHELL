@@ -4,6 +4,7 @@
 #include "lista.h"
 
 void inserir_lista(char ***lista, int *qtd, char *texto){
+    
     char **temp = realloc(*lista, sizeof(char*) * (*qtd + 2));
     if (temp == NULL){
         return;
@@ -26,10 +27,8 @@ void free_lista(char **lista){
     if (lista == NULL){
         return;
     }
-
     for (int i = 0; lista[i] != NULL; i++){
         free(lista[i]);
     }
-
     free(lista);
 }
