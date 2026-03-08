@@ -32,7 +32,24 @@ pid_t input_codigo(char **palavras){
     if (palavras == NULL || palavras[0] == NULL){
         return -1;
     }
-
+    if (strcmp(palavras[0], "help") == 0){
+        printf("\x1b[1;36m\nComandos disponiveis no IGDSshell:\x1b[0m\n\n"
+        "\x1b[1;33mhelp\x1b[0m               - mostra esta lista de comandos\n"
+        "\x1b[1;33mstyle sequential\x1b[0m   - define execucao sequencial\n"
+        "\x1b[1;33mstyle parallel\x1b[0m     - define execucao paralela\n"
+        "\x1b[1;33mcd <diretorio>\x1b[0m     - muda o diretorio atual\n"
+        "\x1b[1;33mexit\x1b[0m               - encerra o shell\n"
+        "\x1b[1;33mfg <id>\x1b[0m            - traz um job do background para foreground\n"
+        "\x1b[1;33m<comando> &\x1b[0m        - executa comando em background\n"
+        "\x1b[1;33m<comando1> ; <comando2>\x1b[0m - executa multiplos comandos na mesma linha\n"
+        "\x1b[1;33m<comando1> | <comando2>\x1b[0m - executa comandos com pipe\n"
+        "\x1b[1;33m<comando> > arquivo\x1b[0m  - redireciona saida para arquivo\n"
+        "\x1b[1;33m<comando> >> arquivo\x1b[0m - adiciona saida ao final do arquivo\n"
+        "\x1b[1;33m<comando> < arquivo\x1b[0m  - usa arquivo como entrada\n"
+        "\x1b[1;33m<comandos Linux>\x1b[0m     - executa comandos externos via execvp\n\n"
+        );
+        return -1;
+    }
     if (strcmp(palavras[0], "style") == 0){
         tratar_style(palavras);
         return -1;
